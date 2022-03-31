@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+
+    <script type="text/babel">
+        class Login extends React.Component {
+            state={
+                userName:"",
+                password:""//初始操作
+            }
+            // 受控组件：随着页面的输入，将数据维护到相应的状态中去，要使用的时候，直接到状态中取用
+            //这点就有点像 vue中的v-model，同样的，使用react官方工具也能发现
+            Submit = (event) => {
+                event.preventDefault();
+                console.log(`用户名:${this.state.userName}   密码:${this.state.password}`)
+
+            }
+            //onchange:当发生变化之后，就相应的进行动态变化
+            //有点类似vue中的v-model实现双向的数据绑定
+            saveUserName=(event)=>{
+                this.setState({userName:event.target.value})
+            }
+            savePassword=(event)=>{
+                this.setState({password:event.target.value})
+            }
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={this.Submit}>
+                            用户：<input type="text" onChange={this.saveUserName} name="username" />
+                            密码：<input type="password"  name="password" onChange={this.savePassword} />
+                            <button>登录</button>
+                        </form>
+                    </div>
+
+                )
+            }
+        }
+        ReactDOM.render(<Login/>, document.getElementById("test"))
+    </script>
+</body>
+
+</html>

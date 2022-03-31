@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+            //React.createRef调用后可以返回一个容器，该容器可以存储被ref所标识的节点,该容器是“专人专用”的
+            myref1=React.createRef()
+            myref2=React.createRef()
+            showdata1 = () => {
+                window.alert(this.myref1.current.value)//this.myref1.current.value专用语法
+            }
+            showdata2 = () => {
+                window.alert(this.myref1.current.value)
+            }
+            render() {
+                return (
+                    <div>
+                        <input ref={this.myref1} placeholder="点击按钮提示数据"></input> &nbsp;&nbsp;
+                        <button onClick={this.showdata1}>点我展示</button>&nbsp;&nbsp;
+                        <input ref={this.myref2} onBlur={this.showdata2} />
+                    </div>
+                )
+                // 注意这里的create是专人专用的，要是使用同一个的话，后面的会覆盖之前的内容
+            }
+        }
+        ReactDOM.render(<Demo/>, document.getElementById('test'))
+
+    </script>
+</body>
+
+</html>

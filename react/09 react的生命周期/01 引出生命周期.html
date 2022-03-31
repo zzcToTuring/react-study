@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    
+    
+    <script type="text/babel">
+        // 在vue的基础上，很多内容都是和vue的生命周期函数相似的，这里也做了很多简写
+        //生命周期回调函数 <=> 生命周期钩子函数 <=> 生命周期函数 <=> 生命周期钩子
+        class Life extends React.Component{
+            state={clear:1}//设置清晰度
+            death=()=>{
+                console.log("调用death函数")
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+                //有挂载的函数，那就一定也有取消挂载的函数，与挂载的类似，因为不用选择组件
+                //因此的话只需要选择一个结点即可
+            }
+            //生命周期钩子1：组件挂载完毕
+            componentDidMount() {
+                console.log('组件马上就挂载了~~~');
+                //在组件挂载的时候定义一个定时器
+                this.timer = setInterval(() => {
+                    let clear=this.state.clear
+                    //减小0.1
+                    clear -= 0.1
+                    
+                    if (clear <= 0) clear = 1
+                    //设置新的透明度
+                    this.setState({"clear":clear})
+                }, 200);
+            }
+            //生命周期钩子2：组件将要卸载
+            componentWillUnmount() {
+                console.log("组件即将要卸载~~~~")
+                clearInterval(this.timer)
+            }
+            //生命周期钩子3：初始化渲染，状态更新之后
+            render() {
+                return(
+                <div>
+                <h2 style={{opacity:this.state.clear}} > hello world</h2>
+                <button onClick={this.death}>学不会</button>    
+                </div>
+
+
+                )
+            }
+
+        }
+
+        ReactDOM.render(<Life />, document.getElementById('test'))
+    </script>
+</body>
+</html>

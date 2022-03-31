@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+
+    <script type="text/babel">
+        //根据案例，对react的生命周期进行介绍，这是16版本的生命周期，对于现在的17版本的话，有一些生命周期函数需要修改
+        //这一些生命周期函数会被剔用
+        /*
+            1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
+                    1.	constructor()
+                    2.	componentWillMount()
+                    3.	render()
+                    4.	componentDidMount() =====> 常用
+                         一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息
+            2. 更新阶段: 由组件内部this.setSate()或父组件render触发
+                    1.	shouldComponentUpdate()
+                    2.	componentWillUpdate()
+                    3.	render() =====> 必须使用的一个
+                    4.	componentDidUpdate()
+            3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
+                    1.	componentWillUnmount()  =====> 常用
+                            一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息
+        */
+        class Count extends React.Component {
+
+            //-------------------下面所展示的初始化过程的生命周期---------------------------
+            //1、构造器也属于一个生命周期函数
+            constructor(props) {
+                console.log("Count---constructor")
+                super(props)
+                //初始化状态
+                this.state = { count: 0 }
+            }
+            //2、组件将要挂在的狗子
+            componentWillMount() {
+                console.log('Count---componentWillMount');
+            }
+            //3、组件挂载完毕的钩子
+            componentDidMount() {
+                console.log('Count---componentDidMount');
+            }
+            //4、组件将要卸载的钩子
+            componentWillUnmount() {
+                console.log('Count---componentWillUnmount');
+            }
+
+            //-------------------下面所展示数据更新的生命周期钩子-----------------------
+            //1、将要更新之前shouldComponentUpdate 返回一个Boolean值
+            //为控制组件更新的“阀门”，返回true继续走更新（渲染页面）程序，否则不执行后续的程序
+            //tip：要是没有shouldComponentUpdate()的话，那么默认返回值为true
+            shouldComponentUpdate() {
+                console.log("count-shouldComponentUpdate")
+                return true
+            }
+            //2、组件将要更新的钩子
+            componentWillUpdate() {
+                console.log('count---componentWillUpdate');
+            }
+            //3、组件更新完毕的钩子
+            componentDidUpdate() {
+                console.log('count---componentDidUpdate');
+            }
+
+            //-----------组件即将卸载的钩子----------------
+            componentWillUnmount() {
+                console.log('Count---componentWillUnmount');
+            }
+            //----------函数定义--------------
+            add=()=>{
+                this.setState({count:this.state.count+1})
+            }
+            death=()=>{
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+            }
+            // 强制更新按钮 正常来说都是需要引起数据的变化才会更新，但也可以不经过数据变化也引起页面的更新
+            // 同样的 要是数据更新在 shouldComponentUpdate()中返回false 也不会引起页面的变化
+            //这样的设计更加灵活
+
+            force=()=>{
+                this.forceUpdate()
+            }
+
+
+            render() {
+                return (
+                    <div>
+                        <h2>当前求和为：{this.state.count}</h2>
+                        <button onClick={this.add}>点我+1</button>
+                        <button onClick={this.death}>卸载组件</button>
+                        <button onClick={this.force}>不更改任何状态中的数据，强制更新一下</button>
+                </div>
+                )
+            }
+
+
+
+
+        }
+
+        //渲染组件
+        ReactDOM.render(<Count />, document.getElementById('test'))
+        
+    </script>
+</body>
+
+</html>

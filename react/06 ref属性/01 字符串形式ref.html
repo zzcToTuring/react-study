@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component{
+            //使用refs获取所在的位置的值，同时也是ref中最简单的一种使用方式
+            //state一般适用于内部的数据
+            showdata1 = () => {
+                window.alert(this.refs.input1.value)
+            }
+            showdata2 = () => {
+                window.alert(this.refs.input2.value)
+            }
+            render() {
+             return(
+                <div>
+                    {/*就类似于JavaScript里面的id ps:写注释如此麻烦告诉我们要少写注释
+                    下面定义了两个事件为： 点击事件和失去焦点的事件
+                    */ }
+                   <input ref="input1" placeholder="点击按钮提示数据"></input> &nbsp;&nbsp;
+                   <button onClick={this.showdata1}>点我展示</button>&nbsp;&nbsp;
+                   <input ref="input2" onBlur={this.showdata2}/>
+                </div> 
+             ) 
+            }
+        }
+        ReactDOM.render(<Demo/>, document.getElementById('test'))
+
+    </script>
+</body>
+</html>

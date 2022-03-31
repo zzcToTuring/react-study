@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class Login extends React.Component {
+            //初始操作    
+            state = {
+                userName: "",
+                password: ""
+            }
+
+            Submit = (event) => {
+                event.preventDefault();
+                console.log(`用户名:${this.state.userName}   密码:${this.state.password}`)
+
+            }
+            save = (type,event) => {
+                this.setState({[type]:event.target.value})//使用正常函数进行操作
+            }
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={this.Submit}>
+                            用户：<input type="text" onChange={(event)=>{this.save("userName",event)}} name="username" />
+                            密码：<input type="password" name="password" onChange={(event) => { this.save("password", event) }} />
+                            <button>登录</button>
+                        </form>
+                    </div>
+
+                )
+            }
+        }
+        ReactDOM.render(<Login />, document.getElementById("test"))               
+    </script>
+</body>
+
+</html>

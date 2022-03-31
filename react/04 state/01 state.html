@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 这个项目讲的有点久，但是都是在说this的问题和一些JavaScript的基础 -->
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    
+    
+    <script type="text/babel">
+    class Weather extends React.Component{
+        //构造器问题,传入的prop，ES6中的继承，需要在构造器中传入值
+        //具体react中有什么嘞，咱也不知道，先这样理解
+        constructor(props){
+            super(props)
+            //state，相当于vue中的data
+            this.state={isHot:false,wind:"微风"}
+            //解决this的指向问题，普通函数的this在babel的处理下为null
+            //在后面肯定要调用weather中的this，因此这里需要给changeweather绑定this
+            this.changeWether=this.changeWether.bind(this)
+
+        }
+        render() {
+            //把数据给他，这样才能展示
+            //onclick要大写，为什么？别人就是这样规定的，目前只能这样理解
+            //onclick理解成JavaScript里面的原生事件的操作
+            //为毛不写成{this.changeWether()}，因为他直接把this.changeWether的返回值给onclick
+            //要是写成()的形式，直接把函数执行之后的结果给onclick，点onclick之后执行函数执行之后的结果
+            //那就会出错了，所以不能写().以便于在点击的时候调用函数
+         const{isHot,wind}=this.state 
+         return <h1 onClick={this.changeWether}>今天的天气：{isHot?"炎热":"凉爽"},{wind}</h1>  
+        }
+        changeWether(){
+            //类中的方法默认开启了局部的严格模式，所以changeWeather中的this为undefined
+            const isHot=this.state.isHot
+            //不能直接修改数据，react不认他，就想vue中的a[0]=1，也是直接修改数据，vue也不能渲染
+            //联想一样vue修改，有一个set方法
+            //相同的，react想这样做的话，也有一个方法，叫setstate方法
+            //只有这样react才能认他帮我们进行渲染
+            this.setState({isHot:!isHot})
+
+        }
+
+    }
+    ReactDOM.render(<Weather />, document.getElementById('test'))
+    </script>
+</body>
+</html>

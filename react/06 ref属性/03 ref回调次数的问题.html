@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+            state = { isHot: true }
+            showdata1 = () => {
+                window.alert(this.input1.value)
+            }
+            showdata2 = () => {
+                window.alert(this.input2.value)
+            }
+            changeWeather = () => {
+                //进行两次回调，但是真正的 差别不大
+                //毫无影响的操作
+                this.setState({ isHot: !this.state.isHot })
+            }
+            render() {
+                return (
+                    <div>
+                        <h2>今天的天气很:{this.state.isHot ? "炎热" : "清爽"}</h2>
+                        <input ref={c => this.input1 = c} placeholder="点击按钮提示数据"></input> &nbsp;&nbsp;
+                        <button onClick={this.showdata1}>点我展示</button>&nbsp;&nbsp;
+                        <button onClick={this.changeWeather}>点我切换天气</button>
+                        <input ref={c => this.input2 = c} onBlur={this.showdata2} />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Demo />, document.getElementById('test'))
+
+    </script>
+</body>
+
+</html>

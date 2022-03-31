@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        //与vue相似的是 react也有父子组件
+        //现在在原生的Jsx中是这样使用的，本HTML中对一些生命周期函数进行省略
+         class A extends React.Component{
+             state={name:"张三"}
+            changeName=()=>{
+                this.setState({name:"李四"})
+            }
+             render(){
+                return(
+                   <div>
+                     <h2>我是A组件</h2>
+                     <button onClick={this.changeName}>改名</button>
+                     <B  name={this.state.name}/>
+                    </div>
+                
+                )
+               
+            }
+         }
+          class B extends React.Component{
+              render(){
+                  return(
+                      <div>
+                        <h2>我是B组件，接受到A组件的数据：{this.props.name}</h2>
+                        </div>
+                      
+                  )
+                  
+                  
+              }
+              //------父子组件更新数据的生命周期------
+              //这些生命周期钩子只会在数据发生变化的时候才调用
+              //1、组件将要接收新的props的钩子
+              componentWillReceiveProps(props) {
+                  console.log('B---componentWillReceiveProps', props);
+              }
+              //2、控制组件更新的“阀门”
+              shouldComponentUpdate() {
+                  console.log('B---shouldComponentUpdate');
+                  return true
+              }
+              //3、组件将要更新的钩子
+              componentWillUpdate() {
+                  console.log('B---componentWillUpdate');
+              }
+              //4、组件更新完毕的钩子
+              componentDidUpdate() {
+                  console.log('B---componentDidUpdate');
+              }
+              /*
+              注意： componentWillReceiveProps(props)、componentWillUpdate()、componentWillMount()的三个生命周期钩子在16版本能正常使用  
+                    在17版本使用时会会报警告，需要在前面加上UNSAFE关键字才能继续使用
+                    在后续的18版本的话 可能会将这些生命周期函数弃用，需要使用新版本的生命周期函数
+
+              */
+
+
+             
+              
+              
+
+          }
+
+        //渲染组件
+        ReactDOM.render(<A />, document.getElementById('test'))
+
+    </script>
+</body>
+
+</html>

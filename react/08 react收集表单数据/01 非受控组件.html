@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class Login extends React.Component {
+            //同样的，表单进行提交的时候，JavaScript是onsubmit在jsx中时onSubmit
+            //感觉也没有什么特别重要的东西，主要是更换了一个形式进行数据处理的操作
+            //表单中所有输入类的数据，是现用现取，那就是非受控组件
+            Submit = (event) => {
+                event.preventDefault();//表单事件的默认行为是进行跳转，阻止默认行为即为停止跳转
+                console.log(`用户名:${this.userName.value}   密码:${this.password.value}`)
+
+            }
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={this.Submit}>
+                            用户：<input type="text" ref={c => this.userName = c} name="userName" />
+                            密码：<input type="password" name="password" ref={c => this.password = c} />
+                            <button>登录</button>
+                        </form>
+                    </div>
+
+                )
+            }
+        }
+        ReactDOM.render(<Login />, document.getElementById("test"))
+    </script>
+</body>
+
+</html>
